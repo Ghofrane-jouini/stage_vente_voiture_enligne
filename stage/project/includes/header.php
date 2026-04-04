@@ -6,14 +6,13 @@ if (session_status() === PHP_SESSION_NONE) {
 $nb_commandes = 0;
 
 require_once $_SERVER['DOCUMENT_ROOT'] . "/stage/project/config/db.php";
-
+// Si user connecté et role = user, compter le nb de commandes en attente
 if (isset($_SESSION['role']) && $_SESSION['role'] === 'user') {
     // COUNT(DISTINCT voiture_id) = nb de voitures différentes commandées en attente
     $stmt = $conn->prepare("
         SELECT COUNT(DISTINCT voiture_id) 
         FROM commandes 
-        WHERE user_id = ? AND statut = 'en attente'
-    ");
+        WHERE user_id = ? AND statut = 'en attente'");
     $stmt->execute([$_SESSION['user_id']]);
     $nb_commandes = (int) $stmt->fetchColumn();
 }

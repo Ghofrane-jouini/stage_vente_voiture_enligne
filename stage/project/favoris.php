@@ -2,12 +2,12 @@
 session_start();
 include "config/db.php";
 
-// ✅ Toute la logique PHP AVANT l'include du header
+// Vérification de l'authentification
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     header("Location: auth/login.php");
     exit;
 }
-
+// Récupérer l'ID de l'utilisateur connecté
 $user_id = (int) $_SESSION['user_id'];
 
 // Ajouter aux favoris
@@ -45,7 +45,6 @@ $stmt = $conn->prepare("
 $stmt->execute([$user_id]);
 $favoris = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// ✅ Header HTML seulement après toute la logique PHP
 include "includes/header.php";
 ?>
 

@@ -2,7 +2,7 @@
 session_start();
 include "../config/db.php";
 
-// ✅ Toute la logique PHP AVANT l'include du header
+// Vérification de l'authentification
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'user') {
     header("Location: ../auth/login.php");
     exit;
@@ -10,7 +10,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'user') {
 
 $user_id = $_SESSION['user_id'];
 
-// Gestion des actions Annuler / Supprimer
+// actions (annuler, supprimer)
 if (isset($_GET['action'], $_GET['id'])) {
     $commande_id = (int)$_GET['id'];
 
@@ -48,7 +48,6 @@ $stmt = $conn->prepare("
 $stmt->execute([$user_id]);
 $achats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// ✅ Header HTML seulement après toute la logique PHP
 include "../includes/header.php";
 ?>
 

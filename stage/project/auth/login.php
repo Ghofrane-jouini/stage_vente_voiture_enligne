@@ -3,7 +3,6 @@ session_start();
 include "../config/db.php";
 
 $error = "";
-
 define("ADMIN_EMAIL", "admin@gmail.com");
 define("ADMIN_PASSWORD", "admin123");
 

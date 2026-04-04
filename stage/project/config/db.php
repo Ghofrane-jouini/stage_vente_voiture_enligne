@@ -1,4 +1,5 @@
 <?php
+// Database connection
 $host = "localhost";
 $dbname = "db_voitures";
 $username = "root";

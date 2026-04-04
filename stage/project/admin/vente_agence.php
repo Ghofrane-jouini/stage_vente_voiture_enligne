@@ -2,19 +2,18 @@
 session_start();
 include "../config/db.php";
 
-/* 🔒 Protection */
+// Vérification de l'authentification et du rôle admin
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../auth/login.php");
     exit;
 }
 
-/* 🆔 ID voiture */
+
 if (!isset($_GET['id'])) {
     die("ID voiture manquant");
 }
 $id = (int) $_GET['id'];
-
-/* 🚗 Récupération voiture */
+// Récupérer les infos de la voiture
 $stmt = $conn->prepare("SELECT * FROM voiture WHERE id = ?");
 $stmt->execute([$id]);
 $voiture = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -24,8 +23,7 @@ if (!$voiture) {
 }
 
 $user_tel = $_GET['tel'] ?? '';
-
-/* 📝 Validation vente */
+// Traitement du formulaire de vente
 if (isset($_POST['valider'])) {
 
     $nom_client = trim($_POST['nom_client']);
@@ -68,7 +66,7 @@ if (isset($_POST['valider'])) {
     }
 }
 
-/* Données pré-remplies depuis POST (si erreur) ou valeurs par défaut */
+// Valeurs par défaut pour le formulaire (pour éviter les "undefined index")
 $val_nom_client = htmlspecialchars($_POST['nom_client'] ?? '');
 $val_tel_client = htmlspecialchars($_POST['tel_client'] ?? $user_tel);
 $val_vendeur    = htmlspecialchars($_POST['vendeur']    ?? '');

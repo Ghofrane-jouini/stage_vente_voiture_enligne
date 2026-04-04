@@ -1,8 +1,8 @@
-<?php  
+<?php 
 session_start(); 
 include "includes/header.php"; 
 include "config/db.php"; 
-
+// Récupérer les valeurs uniques pour les filtres de recherche
 $marques  = $conn->query("SELECT DISTINCT marque FROM voiture ORDER BY marque")->fetchAll();
 $modeles  = $conn->query("SELECT DISTINCT modele FROM voiture ORDER BY modele")->fetchAll();
 $energies = $conn->query("SELECT DISTINCT energie FROM voiture ORDER BY energie")->fetchAll();
@@ -754,9 +754,9 @@ body {
             </div>
         </div>
         <?php endforeach; ?>
-        </div><!-- /.cars-grid -->
-        </div><!-- /.cars-grid-wrap -->
-    </div><!-- /.cars-section-inner -->
-</div><!-- /.cars-section -->
+        </div>
+        </div>
+    </div>
+</div>
 
 <?php include "includes/footer.php"; ?>

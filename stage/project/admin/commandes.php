@@ -7,7 +7,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../index.php");
     exit;
 }
-
 // update statut pour chaque commande
 if (isset($_GET['action'], $_GET['commande_id'])) {
     $commande_id = (int) $_GET['commande_id'];

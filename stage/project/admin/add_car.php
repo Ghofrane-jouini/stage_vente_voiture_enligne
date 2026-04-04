@@ -3,9 +3,9 @@ include "../auth/auth.php";
 include "../config/db.php";
 include "../includes/header.php";
 
-// 🔹 Ajouter voiture
+//  Ajouter voiture
 if (isset($_POST['ajouter'])) {
-
+    // Récupérer les données du formulaire
     $marque = $_POST['marque'];
     $modele = $_POST['modele'];
     $prix = $_POST['prix'];
@@ -21,7 +21,7 @@ if (isset($_POST['ajouter'])) {
     $promo = isset($_POST['promo']) ? 1 : 0;
     $nouveaute = isset($_POST['nouveaute']) ? 1 : 0;
 
-    // image
+    // Gérer l'upload de l'image
     $image = $_FILES['image']['name'];
     $tmp = $_FILES['image']['tmp_name'];
     move_uploaded_file($tmp, "../assets/uploads/" . $image);
@@ -84,8 +84,6 @@ if (isset($_POST['ajouter'])) {
             </select>
 
             <input type="number" name="puissance_fiscale" placeholder="Puissance fiscale">
-
-            <!-- Nouveau champ Quantité -->
             <input type="number" name="quantite" placeholder="Quantité" value="1" min="1" required>
         </div>
 

@@ -1,14 +1,13 @@
 <?php
 session_start();
 include "config/db.php";
-
-// ✅ Logique PHP AVANT le header
+// Vérification de l'authentification
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'user' || !isset($_SESSION['user_id'])) {
     header("Location: auth/login.php");
     exit;
 }
-
-$user_id = (int) $_SESSION['user_id']; // ✅ correct, pas $_SESSION['user']['id']
+// Récupérer l'ID de l'utilisateur connecté
+$user_id = (int) $_SESSION['user_id']; 
 
 // Favoris du user
 $stmt = $conn->prepare("
@@ -25,21 +24,21 @@ function calculateScore($car) {
     $score = 0;
     $score += 100000 / max(1, $car['prix']);
     $score += $car['puissance_fiscale'] * 2;
+    
     if (strtolower($car['boite'])   == "automatique") $score += 5;
     if (strtolower($car['energie']) == "electrique")  $score += 10;
     if (!empty($car['garantie']))                     $score += 3;
     return $score;
 }
-
+// Calcul du score pour chaque voiture
 foreach ($favoris as &$car) {
     $car['score'] = calculateScore($car);
 }
+// Trier les favoris par score décroissant
 unset($car);
-
 usort($favoris, fn($a, $b) => $b['score'] <=> $a['score']);
-
+// Meilleure voiture (la première après tri)
 $best_car = $favoris[0] ?? null;
-
 include "includes/header.php";
 ?>
 
